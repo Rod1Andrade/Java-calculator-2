@@ -23,6 +23,8 @@ public class App extends JFrame {
 
 	/**
 	 * Construtor padrão da classe App
+	 * 
+	 * @param title Titulo da janela
 	 */
 	private App(String title) {
 		this.setTitle(title);
