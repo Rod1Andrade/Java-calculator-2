@@ -17,7 +17,7 @@ public abstract class BaseCalc {
 	 * @param doubles Valores para cálculo.
 	 * @return Resultado do calculo
 	 */
-	public abstract Double makeCalc(Double... doubles);
+	public abstract Double makeCalc(Double value1, Double value2);
 
 	/**
 	 * Construtor padrão para definir operador da classe de cálculo.

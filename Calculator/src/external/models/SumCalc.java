@@ -16,13 +16,9 @@ public class SumCalc extends BaseCalc {
 	}
 
 	@Override
-	public Double makeCalc(Double... doubles) {
-		Double result = 0.0;
-		for (Double value : doubles) {
-			result += value;
-		}
-
-		return result;
+	public Double makeCalc(Double value1, Double value2) {
+		return value1 + value2;
 	}
+
 
 }
