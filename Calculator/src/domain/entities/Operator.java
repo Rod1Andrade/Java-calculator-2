@@ -1,4 +1,4 @@
-package domain.models;
+package domain.entities;
 
 /**
  * Classe de modelo para operadores
@@ -13,7 +13,7 @@ public class Operator {
 	private int precedenceNumber;
 
 	/**
-	 * Construor padrão
+	 * Construtor padrão
 	 * 
 	 * @param simbol           Simbolo represante da operação matemática
 	 * @param name             Nome da operação matemática
