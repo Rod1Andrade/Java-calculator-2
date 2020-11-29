@@ -20,38 +20,59 @@ public class CalculateService implements CalculateServiceInterface {
 
 	@Override
 	public Double calculateExpression(String expression) {
+
+		// Pilhas para aplicar o infix-calculator.
 		Stack<Double> stackNumbers = new Stack<>();
-		Stack<Operator> stackOperations = new Stack<>();
+		Stack<BaseCalc> stackBaseCalc = new Stack<>();
 
-		List<Operator> existentsOperators = this.listOfOperators(expression);
+		// Lista de números e base de cálculos existentes.
 		List<Double> numbers = this.separeteNumberFromOperators(expression);
+		List<BaseCalc> existentsCalcs = this.listOfCalcs(expression);
 
-		int indexOperators = 0;
+		// Index de controle do existentsCalcs
+		int indexExistentsCalc = 0;
+
 		for (int i = 0; i < numbers.size(); i++) {
 			stackNumbers.push(numbers.get(i));
 
-			if (indexOperators < existentsOperators.size()) {
-				while (!stackOperations.isEmpty()
-						&& this.precendenceCheck(existentsOperators.get(indexOperators), stackOperations.peek())) {
-					// TODO: Pensar na forma de executar cálculo do número que está na pilha de
-					// numeros
-					// e dar POP na pilha de operações
+			if (indexExistentsCalc < existentsCalcs.size()) {
+				while (!stackBaseCalc.isEmpty()
+						&& this.precendenceCheck(existentsCalcs.get(indexExistentsCalc), stackBaseCalc.peek())) {
+					double result = this.executeCalc(stackNumbers, stackBaseCalc);
+					stackNumbers.push(result);
 				}
-				stackOperations.push(existentsOperators.get(indexOperators++));
+				stackBaseCalc.push(existentsCalcs.get(indexExistentsCalc++));
 			}
 		}
+		
+		while(!stackBaseCalc.isEmpty()) {
+			double result = this.executeCalc(stackNumbers, stackBaseCalc);
+			stackNumbers.push(result);
+		}
 
-		return null; // TODO: Retornar último valor da pilha
+		return stackNumbers.pop();
+	}
+	
+	/***
+	 * Executa o cálculo dos valores de pilha de números.
+	 * @param stackNumbers Pilha de números
+	 * @param stackBaseCalc Pilha 
+	 * @return double
+	 */
+	private double executeCalc(Stack<Double> stackNumbers, Stack<BaseCalc> stackBaseCalc) {
+		return stackBaseCalc.pop().makeCalc(stackNumbers.pop(), stackNumbers.pop());
 	}
 
 	/**
 	 * Checa a precedência entre operadores
 	 * 
-	 * @param operator1 Operator
-	 * @param operator2 Operator
+	 * @param baseCalc1
+	 * @param baseCalc2
 	 * @return TRUE caso o operador1 tenha precedência menor que o operador2.
 	 */
-	private boolean precendenceCheck(Operator operator1, Operator operator2) {
+	private boolean precendenceCheck(BaseCalc baseCalc1, BaseCalc baseCalc2) {
+		Operator operator1 = baseCalc1.getOperator();
+		Operator operator2 = baseCalc2.getOperator();
 		return operator1.getPrecedenceNumber() <= operator2.getPrecedenceNumber();
 	}
 
@@ -98,35 +119,36 @@ public class CalculateService implements CalculateServiceInterface {
 	}
 
 	/**
-	 * Cria uma lista de operacoes existentes
+	 * Cria uma lista de cálculos existentes
 	 * 
 	 * @param expression Expressao
 	 * @return List
 	 */
-	private List<Operator> listOfOperators(String expression) {
-		List<Operator> operators = new ArrayList<>();
+	private List<BaseCalc> listOfCalcs(String expression) {
+		List<BaseCalc> calcs = new ArrayList<>();
 
 		for (Character simbol : expression.toCharArray()) {
 			if (this.isOperator(simbol)) {
-				operators.add(this.getOperatorBySimbol(simbol));
+				calcs.add(this.getCalcBySimbol(simbol));
 			}
 		}
 
-		return operators;
+		return calcs;
 	}
 
 	/**
+	 * Retorna o cálculo dado o simbolo.
 	 * 
 	 * @param simbol Simbolo para buscar operador
 	 * @return Operator
 	 */
-	private Operator getOperatorBySimbol(Character simbol) {
+	private BaseCalc getCalcBySimbol(Character simbol) {
 
 		for (BaseCalc baseCalc : this.getBaseCalcList()) {
 			Operator operator = baseCalc.getOperator();
 
 			if (operator.getSimbol().equals(simbol)) {
-				return operator;
+				return baseCalc;
 			}
 		}
 
