@@ -15,6 +15,12 @@ public class CalculateUsecase implements Usecase<Double> {
 	private CalculateServiceInterface calculateService;
 	private String expression;
 
+	@Override
+	public Double make() {
+		this.validate();
+		return this.getCalculateService().calculateExpression(this.getExpression());
+	}
+	
 	/**
 	 * Construtor para injetar depedência.
 	 * 
@@ -24,21 +30,6 @@ public class CalculateUsecase implements Usecase<Double> {
 		this.calculateService = calculateService;
 	}
 
-	/**
-	 * Construtor padrão
-	 * 
-	 * @param expression Expressão matemática a ser cálculada
-	 */
-	public CalculateUsecase(String expression) {
-		this.expression = expression;
-	}
-
-	@Override
-	public Double make() {
-		this.validate();
-		return this.getCalculateService().calculateExpression(this.getExpression());
-	}
-	
 	/**
 	 * Validações para a o caso de uso.
 	 */
