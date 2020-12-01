@@ -4,7 +4,8 @@ import java.awt.Dimension;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+import presenter.screen.CalculatorScreen;
 
 /**
  * Classe principal da aplicação.
@@ -17,7 +18,7 @@ public class App extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private Dimension screenDimension = this.getToolkit().getScreenSize();
-	
+
 	private static final double WIDTH_SCALE = .3;
 	private static final double HEIGHT_SCALE = .6;
 
@@ -70,8 +71,9 @@ public class App extends JFrame {
 		return new Dimension((int) this.getScaledWidth(), (int) this.getScaledHeight());
 	}
 
+	// Execução
 	public static void main(String[] args) {
-		new App("Calculadora 2").start(new JPanel());
+		new App("Calculadora 2").start(new CalculatorScreen());
 	}
 
 }
