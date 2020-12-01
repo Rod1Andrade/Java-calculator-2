@@ -6,8 +6,8 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 
 import presenter.listeners.ButtonListener;
-import presenter.utils.MouseHover;
-import presenter.utils.ResetButtonModel;
+import presenter.styles.MouseHover;
+import presenter.styles.ResetButtonModel;
 
 /**
  * Botão customizado para a calculadora.

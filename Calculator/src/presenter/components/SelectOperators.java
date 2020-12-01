@@ -7,9 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import presenter.styles.MouseHover;
+import presenter.styles.ResetButtonModel;
 import presenter.utils.Constants;
-import presenter.utils.MouseHover;
-import presenter.utils.ResetButtonModel;
 
 /**
  * Seletor de operações

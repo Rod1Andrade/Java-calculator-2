@@ -1,4 +1,4 @@
-package presenter.utils;
+package presenter.styles;
 
 import javax.swing.DefaultButtonModel;
 

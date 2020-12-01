@@ -1,4 +1,4 @@
-package presenter.utils;
+package presenter.styles;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
