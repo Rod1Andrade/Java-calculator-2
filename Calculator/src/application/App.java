@@ -29,6 +29,7 @@ public class App extends JFrame {
 	 */
 	private App(String title) {
 		this.setTitle(title);
+		this.setMinimumSize(this.minimumDimension());
 		this.setSize(this.getScaledScreenDimension());
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,6 +70,15 @@ public class App extends JFrame {
 	 */
 	private Dimension getScaledScreenDimension() {
 		return new Dimension((int) this.getScaledWidth(), (int) this.getScaledHeight());
+	}
+
+	/**
+	 * Retorna a dimensão minima da aplicaaco.
+	 * 
+	 * @return Dimensions
+	 */
+	private Dimension minimumDimension() {
+		return new Dimension(800, 450);
 	}
 
 	// Execução
