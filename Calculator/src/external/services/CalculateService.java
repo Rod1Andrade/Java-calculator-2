@@ -44,23 +44,27 @@ public class CalculateService implements CalculateServiceInterface {
 				stackBaseCalc.push(existentsCalcs.get(indexExistentsCalc++));
 			}
 		}
-		
-		while(!stackBaseCalc.isEmpty()) {
+
+		while (!stackBaseCalc.isEmpty()) {
 			double result = this.executeCalc(stackNumbers, stackBaseCalc);
 			stackNumbers.push(result);
 		}
 
 		return stackNumbers.pop();
 	}
-	
+
 	/***
 	 * Executa o cálculo dos valores de pilha de números.
-	 * @param stackNumbers Pilha de números
-	 * @param stackBaseCalc Pilha 
+	 * 
+	 * @param stackNumbers  Pilha de números
+	 * @param stackBaseCalc Pilha
 	 * @return double
 	 */
 	private double executeCalc(Stack<Double> stackNumbers, Stack<BaseCalc> stackBaseCalc) {
-		return stackBaseCalc.pop().makeCalc(stackNumbers.pop(), stackNumbers.pop());
+		Double number1 = stackNumbers.pop();
+		Double number2 = stackNumbers.pop();
+		BaseCalc baseCalc = stackBaseCalc.pop();
+		return baseCalc.makeCalc(number1, number2);
 	}
 
 	/**

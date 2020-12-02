@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import external.services.CalculateService;
+import presenter.controller.OperatorController;
+import presenter.controller.ResultController;
 import presenter.screen.CalculatorScreen;
 
 /**
@@ -81,9 +84,22 @@ public class App extends JFrame {
 		return new Dimension(800, 450);
 	}
 
+	/**
+	 * Inicia o componente principal
+	 * 
+	 * @return JComponent
+	 */
+	private static JComponent initializeMainComponent() {
+		OperatorController operatorController = new OperatorController();
+		ResultController resultController = new ResultController(
+				new CalculateService(operatorController.getAllBaseCalcs()));
+
+		return new CalculatorScreen(operatorController, resultController);
+	}
+
 	// Execução
 	public static void main(String[] args) {
-		new App("Calculadora 2").start(new CalculatorScreen());
+		new App("Calculadora 2").start(App.initializeMainComponent());
 	}
 
 }

@@ -7,12 +7,16 @@ package presenter.screen;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import external.models.BaseCalc;
 import presenter.components.ButtonPanel;
 import presenter.components.Result;
 import presenter.components.SelectOperators;
 import presenter.components.SidePanel;
+import presenter.controller.OperatorController;
 import presenter.controller.ResultController;
 import presenter.listeners.ButtonListener;
 import presenter.listeners.OperatorListener;
@@ -37,7 +41,7 @@ public class CalculatorScreen extends JPanel {
 	/**
 	 * Construtor
 	 */
-	public CalculatorScreen() {
+	public CalculatorScreen(OperatorController operatorController, ResultController resultController) {
 
 		this.setBackground(Color.DARK_GRAY);
 
@@ -48,24 +52,38 @@ public class CalculatorScreen extends JPanel {
 		this.result = new Result(Constants.DEFAULT_VALUE);
 		this.add(this.result, BorderLayout.NORTH);
 
-		ResultController resultController = new ResultController(result);
-
 		// Keyboard panel
-		ButtonListener buttonController = new ButtonListener(resultController);
-		this.buttonPanel = new ButtonPanel(buttonController);
+		ButtonListener buttonListener = new ButtonListener(this.result, resultController);
+		this.buttonPanel = new ButtonPanel(buttonListener);
 		this.add(this.buttonPanel, BorderLayout.CENTER);
 
 		// SidePanel
-		this.selectOperators = new SelectOperators();
+		this.selectOperators = new SelectOperators(this.getBaseCalcs(operatorController));
 
-		OperatorListener operatorController = new OperatorListener(resultController,
+		OperatorListener operatorListener = new OperatorListener(resultController,
 				this.selectOperators.getOperatorSelect());
+		operatorListener.setResult(this.result);
 
-		this.selectOperators.getOperatorSelectActionButton().addActionListener(operatorController);
+		this.selectOperators.getOperatorSelectActionButton().addActionListener(operatorListener);
 
 		this.sidePanel = new SidePanel(this.selectOperators);
-		this.sidePanel.getResultButton().addActionListener(buttonController);
+		this.sidePanel.getResultButton().addActionListener(buttonListener);
 
 		this.add(this.sidePanel, BorderLayout.EAST);
+	}
+
+	/**
+	 * Retorna os calculos basicos atraves do controller
+	 * 
+	 * @param operatorController
+	 * @return
+	 */
+	private JComboBox<BaseCalc> getBaseCalcs(OperatorController operatorController) {
+		JComboBox<BaseCalc> baseCalcsComboBox = new JComboBox<BaseCalc>();
+		DefaultComboBoxModel<BaseCalc> baseCalcDefaultModel = new DefaultComboBoxModel<BaseCalc>();
+		baseCalcDefaultModel.addAll(operatorController.getAllBaseCalcs());
+
+		baseCalcsComboBox.setModel(baseCalcDefaultModel);
+		return baseCalcsComboBox;
 	}
 }

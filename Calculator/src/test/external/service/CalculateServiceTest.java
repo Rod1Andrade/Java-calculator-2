@@ -29,7 +29,7 @@ class CalculateServiceTest {
 	void init() {
 		baseCalcList.add(new SumCalc(new Operator('+', "Sum", 1)));
 		baseCalcList.add(new SubCalc(new Operator('-', "Sub", 1)));
-		
+
 		calculateService.setBaseCalcList(baseCalcList);
 	}
 
@@ -39,14 +39,14 @@ class CalculateServiceTest {
 		String expression = "2+2";
 		assertEquals(4.0, calculateService.calculateExpression(expression));
 	}
-	
+
 	@Test
 	@DisplayName("Subtração de dois números")
 	void trySubTwoNumbers() {
 		String expression = "2-2";
 		assertEquals(0.0, calculateService.calculateExpression(expression));
 	}
-	
+
 	@Test
 	@DisplayName("Expressão com soma e subtração")
 	void tryExpressionWithSumAndSub() {
@@ -54,4 +54,12 @@ class CalculateServiceTest {
 		assertEquals(4.0, calculateService.calculateExpression(expression));
 	}
 
+	// TODO: tratar caso dessa expressao
+	// TODO: Resolver bug do valor negativo
+	@Test
+	@DisplayName("Expressao -2+3")
+	void tryStrangeExrepssion() {
+		String expression = "0-2+3";
+		assertEquals(1.0, calculateService.calculateExpression(expression));
+	}
 }

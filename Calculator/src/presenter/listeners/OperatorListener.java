@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JComboBox;
 
+import external.models.BaseCalc;
+import presenter.components.Result;
 import presenter.controller.ResultController;
 
 /**
@@ -15,8 +17,10 @@ import presenter.controller.ResultController;
  *
  */
 public class OperatorListener implements ActionListener {
+
+	private Result result;
 	private final ResultController resultController;
-	private final JComboBox comboBox;
+	private final JComboBox<BaseCalc> comboBox;
 
 	/**
 	 * Construtor
@@ -24,16 +28,26 @@ public class OperatorListener implements ActionListener {
 	 * @param resultController Controller do Result
 	 * @param comboBox         ComboBox com as opcoes de operacoes
 	 */
-	public OperatorListener(ResultController resultController, JComboBox comboBox) {
+	public OperatorListener(ResultController resultController, JComboBox<BaseCalc> comboBox) {
 		this.resultController = resultController;
 		this.comboBox = comboBox;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		// TODO: Verificar depois da nova impolementacao dos controller
-//		Operator operator = (Operator) this.comboBox.getSelectedItem();
-//		this.resultController.concatValue(operator.getSimbol());
-//		this.resultController.changeLabel();
+		if (this.comboBox.getSelectedItem() != null) {
+			BaseCalc baseCalc = (BaseCalc) this.comboBox.getSelectedItem();
+			this.resultController.concatValue(baseCalc.getOperator().getSimbol());
+			this.result.getResultLabel().setText(this.resultController.getValue());
+		}
 	}
+
+	public Result getResult() {
+		return result;
+	}
+
+	public void setResult(Result result) {
+		this.result = result;
+	}
+
 }

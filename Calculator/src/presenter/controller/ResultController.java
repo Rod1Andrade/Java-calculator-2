@@ -1,8 +1,7 @@
 package presenter.controller;
 
-import javax.swing.JLabel;
-
-import presenter.components.Result;
+import domain.usecases.CalculateUsecase;
+import external.services.CalculateService;
 import presenter.utils.Constants;
 
 /**
@@ -14,9 +13,7 @@ import presenter.utils.Constants;
  */
 public class ResultController {
 
-	// TODO: Alterar para nao ter mais ligacao com componente, mas apenas retornar
-	// valores
-	private final Result result;
+	private CalculateUsecase usecase;
 	private String value;
 
 	/**
@@ -24,19 +21,9 @@ public class ResultController {
 	 * 
 	 * @param result Componente Result
 	 */
-	public ResultController(Result result) {
-		this.result = result;
+	public ResultController(CalculateService calculateService) {
 		this.value = "";
-	}
-
-	/**
-	 * Aplica a mudanca na label
-	 */
-	public void changeLabel() {
-		if (this.result != null) {
-			JLabel label = this.result.getResultLabel();
-			label.setText(this.value);
-		}
+		this.usecase = new CalculateUsecase(calculateService);
 	}
 
 	/**
@@ -49,6 +36,19 @@ public class ResultController {
 			this.value = value;
 		} else {
 			this.value += value;
+		}
+	}
+
+	/**
+	 * Concatena o valor
+	 * 
+	 * @param value Valor a ser concatenado
+	 */
+	public void concatValue(Character value) {
+		if (this.value.trim().equals(Constants.DEFAULT_VALUE)) {
+			this.value = String.valueOf(value);
+		} else {
+			this.value += String.valueOf(value);
 		}
 	}
 
@@ -71,10 +71,19 @@ public class ResultController {
 	/**
 	 * Aplica a expressao a uma funcao para obter o resultado
 	 */
-	public void makeResult() {
-//		Calculator calculator = Calculator.factoryCalculatorIntance();
-//
-//		double result = calculator.make(this.value);
-//		this.value = String.valueOf(result);
+	public String makeResult() {
+		this.usecase.setExpression(this.value);
+		this.value = String.valueOf(this.usecase.make());
+		return this.value;
 	}
+
+	/**
+	 * Retorna o valor
+	 * 
+	 * @return String
+	 */
+	public String getValue() {
+		return this.value;
+	}
+
 }

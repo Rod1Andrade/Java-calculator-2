@@ -45,4 +45,9 @@ public abstract class BaseCalc {
 	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}
+
+	@Override
+	public String toString() {
+		return this.operator.getName();
+	}
 }

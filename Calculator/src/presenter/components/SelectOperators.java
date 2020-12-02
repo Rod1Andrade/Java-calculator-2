@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import external.models.BaseCalc;
 import presenter.styles.MouseHover;
 import presenter.styles.ResetButtonModel;
 import presenter.utils.Constants;
@@ -22,12 +23,12 @@ public class SelectOperators extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	// TODO: Ajustar para receber as operacoes atraves do controller
-	private JComboBox operators;
+	private JComboBox<BaseCalc> baseCalcsComboBox;
 	private JButton operatorSelectActionButton;
 
-	public SelectOperators() {
+	public SelectOperators(JComboBox<BaseCalc> baseCalcsComboBox) {
 		this.setBackground(Color.DARK_GRAY);
+		this.setOperatorSelect(baseCalcsComboBox);
 
 		GridLayout gridLayout = new GridLayout(2, 1);
 		gridLayout.setVgap(5);
@@ -35,7 +36,7 @@ public class SelectOperators extends JPanel {
 		this.init();
 
 		this.setLayout(gridLayout);
-		this.add(this.operators);
+		this.add(this.baseCalcsComboBox);
 		this.add(this.operatorSelectActionButton);
 	}
 
@@ -43,17 +44,16 @@ public class SelectOperators extends JPanel {
 	 * Funcao para iniciar os componentes
 	 */
 	private void init() {
-		operatorSelectInit();
-		actionButtonInit();
+		this.operatorSelectInit();
+		this.actionButtonInit();
 	}
 
 	/**
 	 * Define como o comboBox de selecao unica deve ser iniciado.
 	 */
 	private void operatorSelectInit() {
-		this.operators = this.defineOperatorSelect();
-		this.operators.setBackground(Color.BLACK);
-		this.operators.setForeground(Color.WHITE);
+		this.baseCalcsComboBox.setBackground(Color.BLACK);
+		this.baseCalcsComboBox.setForeground(Color.WHITE);
 	}
 
 	/**
@@ -71,28 +71,37 @@ public class SelectOperators extends JPanel {
 	}
 
 	/**
-	 * Define 'operatorSelect' com seus valores padroes.
-	 *
-	 * @return JComboBox
+	 * Retorna a lista de BaseCalc onde pode ser extraido os operadores.
+	 * 
+	 * @return JComboBox<BaseCalc>
 	 */
-	private JComboBox defineOperatorSelect() {
-		JComboBox comboBox = new JComboBox<>();
-
-		return comboBox;
+	public JComboBox<BaseCalc> getOperatorSelect() {
+		return baseCalcsComboBox;
 	}
 
-	public JComboBox getOperatorSelect() {
-		return operators;
+	/**
+	 * Define as a lista de BaseCacl onde pode ser extraido os operadores.
+	 * 
+	 * @param operatorSelect
+	 */
+	public void setOperatorSelect(JComboBox<BaseCalc> operatorSelect) {
+		this.baseCalcsComboBox = operatorSelect;
 	}
 
-	public void setOperatorSelect(JComboBox operatorSelect) {
-		this.operators = operatorSelect;
-	}
-
+	/**
+	 * Retorna o botão de ação.
+	 * 
+	 * @return JButton
+	 */
 	public JButton getOperatorSelectActionButton() {
 		return operatorSelectActionButton;
 	}
 
+	/**
+	 * Define o botao de ação.
+	 * 
+	 * @param operatorSelectActionButton
+	 */
 	public void setOperatorSelectActionButton(JButton operatorSelectActionButton) {
 		this.operatorSelectActionButton = operatorSelectActionButton;
 	}
